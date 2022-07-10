@@ -1,0 +1,73 @@
+﻿@using IdentityFromScratch.Areas.Identity.Data
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@model List<Claim>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IdentityFromScratchUser user = ViewBag.user;
+    
+}
+
+<h1>Manage Claims for @ViewBag.user.UserName</h1>
+<h2>This User currently has @Model.Count Claims</h2>
+
+<form asp-action=createclaim method="post">
+    
+
+
+<table class="table" >
+    <thead>
+                <th></th>
+                <th></th>
+                <th>Type</th>
+                <th>Value</th>
+                <th>ValueType</th>
+                <th></th>
+    </thead>
+    <tbody>
+        <td></td>
+        <td></td>
+       
+        
+          <td><input type="text" name="claimtype" /></td>
+            <td><input type="text" name="value" /></td>
+
+            <td><input type="hidden" name="user" value="@user.Id" /></td>
+            <td><button class="btn-primary" type="submit">Create Claim</button></td>
+    
+    <thead>
+        <tr>
+            <th>Issuer</th>
+                <th>OriginalIssuer</th>
+                   <th>Type</th>
+                    <th>Value</th>
+                     <th>ValueType</th>
+                     <th></th>
+                      
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var claim in Model)
+        {
+           <tr>
+               <td>@claim.Issuer</td>
+                <td>@claim.OriginalIssuer</td>
+                   <td>@claim.Type</td>
+                    <td>@claim.Value</td>
+                     <td>@claim.ValueType</td>
+                      
+                     <td><a asp-action="removeclaim" asp-route-user="@user.Id" asp-route-claimtype="@claim.Type" asp-route-value="@claim.Value">Remove</a></td>
+
+                
+                
+           </tr>
+           
+        }
+    </tbody>
+    </table>
+    </form>
+    <a asp-controller="users" asp-action="index">Back to Users</a><br />
+    <a asp-controller="roles" asp-action="index">Back to Roles</a>
+
+

@@ -1,0 +1,11 @@
+﻿1.  Add a policy class:  derived from            :  AuthorizationHandler<TheClassBeingCreated>, IAuthorizationRequirement { ...  }
+2.  Add custom data to the class needed to validate the context
+3.  Implement     HandleRequirementAsync    
+                  call either context.Succeed
+                  or          context.fail
+
+4.  in your service configuration for dependancy injection AddAuthorization policies with the correct values
+    [in this sample it is in program.cs]
+
+
+5.  Attach policies to the various action methods

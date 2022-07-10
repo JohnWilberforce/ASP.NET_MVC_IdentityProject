@@ -1,0 +1,83 @@
+﻿@using IdentityFromScratch.Areas.Identity.Data
+@using System.Security.Claims
+@model IEnumerable<IdentityFromScratchUser>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Dictionary<string, IList<String>> roles = ViewBag.roles;
+    Dictionary<string, IList<Claim>> claims = ViewBag.claims;
+}
+
+<h1>Index</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Roles</th>
+            <th></th>
+            <th>Claims</th>
+            <th></th>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmailConfirmed)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @foreach(string role in roles[item.Id])
+                {
+                        <text> @role <br /></text>
+                 }
+            </td>
+            <td>
+                <a asp-action="Roles" asp-route-id="@item.Id">Manage Roles</a>
+            </td>
+            <td>
+                 @foreach(Claim claim in claims[item.Id])
+                    {
+                        <text>  @claim.Type : @claim.Value <br/>  </text> 
+                    }
+
+            </td>
+            <td>
+                <a asp-action="ManageClaims" asp-route-id="@item.Id">Manage&nbsp;Claims</a>
+            </td>
+            <td>
+                 <a asp-action="Iclaims" asp-route-id="@item.Id">Instant&nbsp;Claims</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailConfirmed)
+            </td>
+            <td>
+                 <a asp-action="RemoveUser" asp-route-id="@item.Id">Remove!</a> <br><br>
+                <a asp-action="ConfirmEmail" asp-route-id="@item.Id">Confirm Email</a> <br>
+               
+                <a asp-action="ResetPassword" asp-route-id="@item.Id" asp-route-newPassword="HelloHello1!">Reset Password</a> 
+                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+ <a asp-controller="roles" asp-action="index">Back to Roles</a>
+

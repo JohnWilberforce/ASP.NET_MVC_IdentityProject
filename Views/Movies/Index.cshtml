@@ -1,0 +1,37 @@
+@model IEnumerable<IdentityFromScratch.Models.Movies>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-md-center">MOVIES</h1>
+
+<p>
+    <a id="index" class="text-decoration-none bg-primary text-white" style="border-radius: 5px; padding: 10px 10px;"asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                <a asp-action="Watching" class="text-decoration-none" asp-route-id="@item.MoviesId">Click to Watch</a> |
+                <a asp-action="Edit" class="text-decoration-none" asp-route-id="@item.MoviesId">Edit</a> |
+                <a asp-action="Details" class="text-decoration-none" asp-route-id="@item.MoviesId">Details</a> |
+                <a asp-action="Delete" class="text-decoration-none" asp-route-id="@item.MoviesId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

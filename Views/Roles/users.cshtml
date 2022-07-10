@@ -1,0 +1,53 @@
+﻿@using IdentityFromScratch.Areas.Identity.Data
+@using Microsoft.AspNetCore.Identity
+@model List<IdentityFromScratchUser>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IdentityRole role = ViewBag.role;
+    List<string> myusers = ViewBag.myusers;
+}
+
+<h1>Manage Users for @ViewBag.role.Name </h1>
+<h2>This role currently contains @myusers.Count Users</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>User Name</th>
+            <th>Member</th>
+            <th>Not a Member</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var user in Model)
+        {
+           <tr>
+               <td>@user.UserName</td>
+                @{
+                    if (myusers.Contains(user.Id))
+                    {
+                       
+                        <td>
+                        In this role: <a asp-action="removeuser" asp-route-role= "@role.Id" asp-route-user="@user.Id">Remove</a> 
+                        </td>
+                        <td></td>
+                    }
+                    else
+                    {
+                         
+                          <td></td>
+                        <td>
+                        Not this role: <a asp-action="adduser" asp-route-role= "@role.Id" asp-route-user="@user.Id">Add</a> 
+                        </td>
+                    }
+                }
+           </tr>
+           
+        }
+    </tbody>
+    </table>
+    <a asp-controller="users" asp-action="index">Back to Users</a><br />
+    <a asp-controller="roles" asp-action="index">Back to Roles</a>
+
+
